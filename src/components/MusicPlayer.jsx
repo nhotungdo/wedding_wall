@@ -1,61 +1,115 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { Music, Pause } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Music2, Pause, Volume2 } from 'lucide-react';
 import './MusicPlayer.css';
 
-// Provide a default romantic instrumental track (public domain/royalty free placeholder)
-const MUSIC_SRC = "https://actions.google.com/sounds/v1/water/rain_on_roof.ogg"; // Fallback safe sound
-const REAL_MUSIC_SRC = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // Better placeholder
+// "Lễ Đường" — Kai Đinh (YouTube ID)
+const YT_VIDEO_ID = 'LMpWNZ_M64g';
 
 export default function MusicPlayer({ startPlaying }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+  const [isReady, setIsReady] = useState(false);
+  const playerRef = useRef(null);
+  const containerRef = useRef(null);
 
-  // Auto-play when startPlaying prop becomes true (e.g., when envelope opens)
+  // Load YouTube IFrame API once
   useEffect(() => {
-    if (startPlaying && audioRef.current) {
-      audioRef.current.play()
-        .then(() => setIsPlaying(true))
-        .catch((e) => console.log("Autoplay prevented by browser, waiting for user click.", e));
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+      return;
     }
-  }, [startPlaying]);
 
-  const togglePlay = () => {
-    if (!audioRef.current) return;
-    
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = () => {
+      initPlayer();
+    };
+
+    return () => {
+      window.onYouTubeIframeAPIReady = null;
+    };
+  }, []);
+
+  const initPlayer = () => {
+    if (playerRef.current) return; // already created
+    playerRef.current = new window.YT.Player(containerRef.current, {
+      videoId: YT_VIDEO_ID,
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
+        rel: 0,
+        showinfo: 0,
+        loop: 1,
+        playlist: YT_VIDEO_ID,
+      },
+      events: {
+        onReady: () => setIsReady(true),
+        onStateChange: (event) => {
+          // YT.PlayerState.PLAYING = 1
+          setIsPlaying(event.data === 1);
+        },
+      },
+    });
+  };
+
+  // Auto-play when envelope opens
+  useEffect(() => {
+    if (startPlaying && isReady && playerRef.current) {
+      try {
+        playerRef.current.playVideo();
+      } catch (e) {
+        console.log('Autoplay prevented:', e);
+      }
     }
-    setIsPlaying(!isPlaying);
+  }, [startPlaying, isReady]);
+
+  const toggle = () => {
+    if (!isReady || !playerRef.current) return;
+    if (isPlaying) {
+      playerRef.current.pauseVideo();
+    } else {
+      playerRef.current.playVideo();
+    }
   };
 
   return (
     <div className="music-player-fixed">
-      {/* Hidden audio element */}
-      <audio 
-        ref={audioRef} 
-        src={REAL_MUSIC_SRC} 
-        loop 
-        preload="auto"
+      {/* Hidden YouTube player div */}
+      <div
+        ref={containerRef}
+        style={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          opacity: 0,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+        }}
       />
-      
-      {/* Floating Button */}
-      <button 
-        className={`music-btn ${isPlaying ? 'playing' : ''}`} 
-        onClick={togglePlay}
-        aria-label="Toggle Music"
+
+      {/* Floating toggle button */}
+      <button
+        className={`music-btn ${isPlaying ? 'playing' : ''}`}
+        onClick={toggle}
+        aria-label={isPlaying ? 'Tắt nhạc' : 'Bật nhạc'}
+        title={isPlaying ? 'Lễ Đường — Kai Đinh ▶ đang phát' : 'Bật nhạc: Lễ Đường — Kai Đinh'}
       >
-        {isPlaying ? (
-          <div className="music-icon-wrapper spinning">
-            <Music size={18} color="#FFF" />
-          </div>
-        ) : (
-          <div className="music-icon-wrapper">
+        <div className={`music-icon-wrapper ${isPlaying ? 'spinning' : ''}`}>
+          {isPlaying ? (
             <Pause size={18} color="#FFF" />
-          </div>
+          ) : (
+            <Music2 size={18} color="#FFF" />
+          )}
+        </div>
+        {isPlaying && (
+          <span className="music-now-playing font-sans">♫ Lễ Đường</span>
         )}
       </button>
     </div>

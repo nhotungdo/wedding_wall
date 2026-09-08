@@ -30,7 +30,7 @@ export default function Footer() {
           transition={{ duration: 0.8 }}
         >
           <div className="footer-brand">
-            <h2 className="font-serif footer-title">MINH &amp; PHƯƠNG</h2>
+            <h2 className="font-serif footer-title">VŨ MINH &amp; LÊ PHƯƠNG</h2>
             <div className="footer-date-row">
               <Heart size={14} fill="var(--color-gold-light)" color="var(--color-gold-light)" />
               <span>13 · 10 · 2026</span>
@@ -47,7 +47,7 @@ export default function Footer() {
           <div className="footer-info-grid">
             {/* Groom Contact */}
             <div className="contact-box">
-              <h4 className="font-sans contact-role">CHÚ RỂ MINH</h4>
+              <h4 className="font-sans contact-role">CHÚ RỂ — VŨ MINH</h4>
               <p className="contact-phone">
                 <Phone size={14} /> 0901 234 567
               </p>
@@ -65,7 +65,7 @@ export default function Footer() {
 
             {/* Bride Contact */}
             <div className="contact-box">
-              <h4 className="font-sans contact-role">CÔ DÂU PHƯƠNG</h4>
+              <h4 className="font-sans contact-role">CÔ DÂU — LÊ PHƯƠNG</h4>
               <p className="contact-phone">
                 <Phone size={14} /> 0987 654 321
               </p>

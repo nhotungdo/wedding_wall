@@ -31,7 +31,7 @@ export default function WeddingCalendar() {
         >
           <span className="section-badge font-sans">SAVE THE DATE</span>
           <h2 className="title font-serif">Lịch Các Ngày Trọng Đại</h2>
-          <p className="subtitle">Tháng 10 Năm 2026 — Các mốc ngày vui của Vũ Văn Minh &amp; Lê Thị Phương</p>
+          <p className="subtitle">Tháng 10 Năm 2026 — Các mốc ngày vui của Vũ Minh &amp; Lê Phương</p>
         </motion.div>
 
         <motion.div 

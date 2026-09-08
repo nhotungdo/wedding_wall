@@ -62,7 +62,7 @@ export default function WeddingCeremony() {
         >
           <span className="section-badge font-sans">THE WEDDING EVENTS</span>
           <h2 className="title font-serif">Lịch Lễ Cưới Chính Thức</h2>
-          <p className="subtitle">Trân trọng kính mời quý khách đến chung vui cùng dâu rể<br /><strong>Vũ Văn Minh &amp; Lê Thị Phương</strong></p>
+          <p className="subtitle">Trân trọng kính mời quý khách đến chung vui cùng dâu rể<br /><strong>Vũ Minh &amp; Lê Phương</strong></p>
         </motion.div>
 
         {/* Vertical Timeline */}
