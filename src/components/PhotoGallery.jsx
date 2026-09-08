@@ -115,12 +115,12 @@ export default function PhotoGallery() {
   };
 
   const showPrev = (e) => {
-    e.stopPropagation();
+    if (e && e.stopPropagation) e.stopPropagation();
     setSelectedImgIndex((prev) => (prev === 0 ? filteredImages.length - 1 : prev - 1));
   };
 
   const showNext = (e) => {
-    e.stopPropagation();
+    if (e && e.stopPropagation) e.stopPropagation();
     setSelectedImgIndex((prev) => (prev === filteredImages.length - 1 ? 0 : prev + 1));
   };
 
@@ -202,10 +202,23 @@ export default function PhotoGallery() {
 
                 <motion.div 
                   className="lightbox-content"
-                  initial={{ scale: 0.9 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0.9 }}
+                  key={selectedImgIndex} // Re-animate when index changes
+                  initial={{ scale: 0.9, opacity: 0, x: 20 }}
+                  animate={{ scale: 1, opacity: 1, x: 0 }}
+                  exit={{ scale: 0.9, opacity: 0, x: -20 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 200 }}
                   onClick={(e) => e.stopPropagation()}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.8}
+                  onDragEnd={(e, { offset, velocity }) => {
+                    const swipeThreshold = 50;
+                    if (offset.x < -swipeThreshold) {
+                      showNext();
+                    } else if (offset.x > swipeThreshold) {
+                      showPrev();
+                    }
+                  }}
                 >
                   <img 
                     src={filteredImages[selectedImgIndex].src} 

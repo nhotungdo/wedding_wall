@@ -9,6 +9,11 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 40px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gallery-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .tab-btn {
@@ -233,18 +238,40 @@
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: 240px;
   }
-  .gallery-item.span-2x2,
-  .gallery-item.span-1x2,
-  .gallery-item.span-2x1,
-  .gallery-item.span-1x1 {
-    grid-column: span 1 !important;
-    grid-row: span 1 !important;
+  /* Bỏ override span trên tablet để giữ nguyên layout bento mini */
+}
+
+@media (max-width: 768px) {
+  .gallery-tabs {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+  }
+  .tab-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 }
 
 @media (max-width: 500px) {
   .gallery-grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 280px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 150px;
+  }
+  
+  .lightbox-nav {
+    display: none;
+  }
+
+  .lightbox-close {
+    top: 15px;
+    right: 15px;
+    background: rgba(0,0,0,0.5); /* Better contrast on mobile */
+  }
+
+  .lightbox-content img {
+    max-height: 80vh;
   }
 }
