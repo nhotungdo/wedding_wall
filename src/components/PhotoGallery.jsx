@@ -65,6 +65,39 @@ const galleryImages = [
   }
 ];
 
+const getBentoClass = (index) => {
+  const patterns = [
+    'span-2x2', 'span-1x1', 'span-1x2', 'span-1x1',
+    'span-2x1', 'span-1x2', 'span-1x1', 'span-2x1'
+  ];
+  return patterns[index % patterns.length];
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.9 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1, 
+    transition: { type: "spring", stiffness: 100, damping: 15 } 
+  },
+  exit: { 
+    opacity: 0, 
+    scale: 0.8, 
+    transition: { duration: 0.3 } 
+  }
+};
+
 export default function PhotoGallery() {
   const [activeTab, setActiveTab] = useState('ALL');
   const [selectedImgIndex, setSelectedImgIndex] = useState(null);
@@ -125,22 +158,30 @@ export default function PhotoGallery() {
         </div>
 
         {/* Image Grid */}
-        <motion.div className="gallery-grid" layout>
-          <AnimatePresence>
+        <motion.div 
+          className="gallery-grid" 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <AnimatePresence mode="popLayout">
             {filteredImages.map((img, index) => (
               <motion.div
                 key={img.id}
-                className="gallery-item"
+                className={`gallery-item ${getBentoClass(index)}`}
                 layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.4 }}
+                variants={itemVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
                 onClick={() => openLightbox(index)}
               >
-                <img src={img.src} alt={img.title} />
+                <img src={img.src} alt={img.title} loading="lazy" />
                 <div className="gallery-overlay">
-                  <Maximize2 size={24} color="#FFF" />
+                  <div className="gallery-icon-wrap">
+                    <Maximize2 size={24} color="#FFF" />
+                  </div>
                   <span className="gallery-img-title font-serif">{img.title}</span>
                   <span className="gallery-img-cat">{img.category}</span>
                 </div>

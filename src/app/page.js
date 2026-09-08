@@ -14,7 +14,6 @@ import WeddingCalendar from '@/components/WeddingCalendar';
 import WeddingSchedule from '@/components/WeddingSchedule';
 import VenueMap from '@/components/VenueMap';
 import OurFamilies from '@/components/OurFamilies';
-import RSVP from '@/components/RSVP';
 import Guestbook from '@/components/Guestbook';
 import WeddingGift from '@/components/WeddingGift';
 import PhotoWall from '@/components/PhotoWall';
@@ -81,9 +80,6 @@ export default function Home() {
 
             {/* 12. Our Families */}
             <OurFamilies />
-
-            {/* 13. RSVP */}
-            <RSVP />
 
             {/* 14. Guestbook */}
             <Guestbook />
