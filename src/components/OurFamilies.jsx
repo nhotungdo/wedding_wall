@@ -34,14 +34,6 @@ export default function OurFamilies() {
             <div className="family-divider"></div>
 
             <div className="parents-info">
-              <div className="parent-row">
-                <span className="parent-label">Thân phụ:</span>
-                <strong className="parent-name">Ông VŨ VĂN HÙNG</strong>
-              </div>
-              <div className="parent-row">
-                <span className="parent-label">Thân mẫu:</span>
-                <strong className="parent-name">Bà NGUYỄN THỊ MAI</strong>
-              </div>
             </div>
 
             <p className="family-location">Địa chỉ: Xã Châu Ninh, Huyện Khoái Châu, Tỉnh Hưng Yên</p>
@@ -65,14 +57,6 @@ export default function OurFamilies() {
             <div className="family-divider"></div>
 
             <div className="parents-info">
-              <div className="parent-row">
-                <span className="parent-label">Thân phụ:</span>
-                <strong className="parent-name">Ông LÊ THÀNH TÂM</strong>
-              </div>
-              <div className="parent-row">
-                <span className="parent-label">Thân mẫu:</span>
-                <strong className="parent-name">Bà TRẦN THỊ HƯƠNG</strong>
-              </div>
             </div>
 
             <p className="family-location">Địa chỉ: Xã Châu Ninh, Huyện Khoái Châu, Tỉnh Hưng Yên</p>
