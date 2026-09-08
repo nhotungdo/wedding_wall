@@ -10,51 +10,108 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 30px;
+}
+
+.footer-title {
+  font-size: 2.8rem;
+  color: white;
+  letter-spacing: 3px;
+}
+
+.footer-date-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--color-gold-light);
+  font-size: 1rem;
+  letter-spacing: 4px;
+  margin-top: 6px;
+}
+
+.footer-thank-you p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .footer-info-grid {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 50px;
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
 }
 
 .contact-box {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.vertical-divider {
-  width: 1px;
-  height: 80px;
-  background-color: rgba(201, 168, 106, 0.3); /* Gold with opacity */
+.contact-role {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: var(--color-gold-light);
+  font-weight: 700;
+}
+
+.contact-phone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  color: white;
 }
 
 .social-links {
   display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 15px;
+  gap: 12px;
+  margin-top: 4px;
 }
 
 .social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
   transition: all 0.3s ease;
 }
 
 .social-icon:hover {
-  background-color: var(--color-gold);
+  background: white;
   color: var(--color-primary-dark);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+}
+
+.vertical-divider {
+  width: 1px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 25px;
+  width: 100%;
+}
+
+.made-with {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.made-with strong {
+  color: var(--color-gold-light);
 }
 
 @media (max-width: 600px) {
@@ -62,9 +119,8 @@
     flex-direction: column;
     gap: 30px;
   }
-  
   .vertical-divider {
-    width: 80px;
+    width: 60px;
     height: 1px;
   }
 }

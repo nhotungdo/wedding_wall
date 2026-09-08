@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MailOpen } from 'lucide-react';
+import { MailOpen, Sparkles } from 'lucide-react';
 import './DigitalEnvelope.css';
 
 export default function DigitalEnvelope({ onOpen }) {
@@ -12,17 +12,13 @@ export default function DigitalEnvelope({ onOpen }) {
 
   const handleOpen = () => {
     setIsOpen(true);
-    // After envelope opens, trigger the flash effect
     setTimeout(() => {
       setIsFlashing(true);
-      
-      // While flashing white, hide envelope and trigger onOpen
       setTimeout(() => {
         setIsHiding(true);
         if (onOpen) onOpen();
-      }, 800); // Trigger transition during the white flash
-
-    }, 1200); // Time for the envelope flap to open and card to slide up
+      }, 800);
+    }, 1200);
   };
 
   return (
@@ -35,7 +31,6 @@ export default function DigitalEnvelope({ onOpen }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Flash Overlay */}
           <AnimatePresence>
             {isFlashing && (
               <motion.div 
@@ -49,33 +44,33 @@ export default function DigitalEnvelope({ onOpen }) {
           </AnimatePresence>
 
           <div className={`envelope ${isOpen ? 'open' : ''}`}>
-            {/* The Front Flap */}
             <div className="flap"></div>
             
-            {/* The Card Inside */}
             <div className="card">
               <div className="card-content">
-                <h2 className="font-serif text-primary">WITH LOVE</h2>
+                <Sparkles className="envelope-sparkle" size={24} />
+                <h3 className="sub-title">WITH LOVE</h3>
+                <h1 className="couple-names">MINH & PHƯƠNG</h1>
+                <p className="tagline">THE BEGINNING OF FOREVER</p>
                 <div className="divider"></div>
-                <p className="invite-text">MINH & PHƯƠNG</p>
-                <p className="date text-gold mt-2">20 • 12 • 2026</p>
+                <p className="date">20 · 12 · 2026</p>
               </div>
             </div>
             
-            {/* Envelope Front Layer */}
             <div className="front"></div>
             
-            {/* Seal/Button */}
             {!isOpen && (
-              <motion.button 
-                className="seal-btn"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleOpen}
-              >
-                <MailOpen size={20} color="#FFF" />
-                <span>OPEN INVITE</span>
-              </motion.button>
+              <div className="seal-btn-container">
+                <motion.button 
+                  className="seal-btn"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleOpen}
+                >
+                  <MailOpen size={20} color="#FFF" />
+                  <span>MỞ THIỆP</span>
+                </motion.button>
+              </div>
             )}
           </div>
           

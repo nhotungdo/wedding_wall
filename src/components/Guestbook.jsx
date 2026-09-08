@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Quote } from 'lucide-react';
+import { Send, Heart, MessageSquare } from 'lucide-react';
 import './Guestbook.css';
 
 const initialMessages = [
-  { id: 1, name: 'Ngọc', message: 'Chúc hai bạn trăm năm hạnh phúc, sớm sinh quý tử nhé! ❤️' },
-  { id: 2, name: 'Hải Đăng', message: 'Mãi mãi yêu thương nhau như ngày đầu tiên nha.' }
+  { id: 1, name: 'Linh', message: 'Chúc hai bạn trăm năm hạnh phúc, mãi mãi bên nhau gắn kết!' },
+  { id: 2, name: 'Hải Đăng', message: 'Mãi mãi yêu thương nhau như ngày đầu tiên nha.' },
+  { id: 3, name: 'Quỳnh Trang', message: 'Chúc dâu rể sớm có hoàng tử công chúa kháu khỉnh!' }
 ];
 
 export default function Guestbook() {
@@ -21,11 +22,10 @@ export default function Guestbook() {
 
     const newMessage = {
       id: Date.now(),
-      name,
-      message
+      name: name.trim(),
+      message: message.trim()
     };
 
-    // Add new message to the top of the list
     setMessages([newMessage, ...messages]);
     setName('');
     setMessage('');
@@ -39,10 +39,11 @@ export default function Guestbook() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-10"
+          className="section-header text-center"
         >
-          <h2 className="title">Sổ Lưu Bút</h2>
-          <p className="subtitle">Những lời chúc tốt đẹp nhất dành cho hai chúng mình</p>
+          <span className="section-badge font-sans">GUESTBOOK</span>
+          <h2 className="title font-serif">Sổ Lưu Bút</h2>
+          <p className="subtitle">Gửi lời chúc tốt đẹp nhất dành cho Minh &amp; Phương</p>
         </motion.div>
 
         <div className="guestbook-grid">
@@ -55,51 +56,66 @@ export default function Guestbook() {
             transition={{ duration: 0.6 }}
           >
             <form className="guestbook-form" onSubmit={handleSubmit}>
-              <h3 className="font-serif mb-4 text-primary" style={{ fontSize: '1.5rem' }}>Gửi lời chúc</h3>
+              <h3 className="form-title font-serif">LEAVE A MESSAGE</h3>
+              <p className="form-sub font-sans">Lời chúc của bạn sẽ xuất hiện ngay bên dưới</p>
+              
               <div className="form-group">
+                <label className="form-label">Tên của bạn</label>
                 <input 
                   type="text" 
-                  placeholder="Tên của bạn..." 
+                  placeholder="Nhập tên của bạn..." 
                   required 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
+
               <div className="form-group">
+                <label className="form-label">Lời chúc dành cho MINH &amp; PHƯƠNG</label>
                 <textarea 
-                  placeholder="Lời chúc của bạn..." 
+                  placeholder="Viết lời chúc yêu thương tại đây..." 
                   rows="4" 
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 ></textarea>
               </div>
-              <button type="submit" className="btn w-full mt-2">
+
+              <button type="submit" className="btn guestbook-submit-btn">
                 <Send size={18} />
-                Gửi lời chúc
+                GỬI LỜI CHÚC
               </button>
             </form>
           </motion.div>
 
           {/* Messages Feed */}
           <div className="messages-feed">
-            <AnimatePresence>
-              {messages.map((msg) => (
-                <motion.div
-                  key={msg.id}
-                  className="message-card"
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                  layout
-                >
-                  <Quote className="quote-icon" size={24} color="#C9A86A" />
-                  <p className="msg-content">{msg.message}</p>
-                  <div className="msg-author font-serif">❤️ {msg.name}</div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+            <h4 className="feed-title font-serif">
+              <MessageSquare size={18} color="var(--color-primary)" />
+              <span>Lời chúc từ người thân &amp; bạn bè ({messages.length})</span>
+            </h4>
+
+            <div className="feed-list">
+              <AnimatePresence>
+                {messages.map((msg) => (
+                  <motion.div
+                    key={msg.id}
+                    className="message-card"
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                    layout
+                  >
+                    <div className="msg-author font-serif">
+                      <Heart size={16} fill="var(--color-primary)" color="var(--color-primary)" />
+                      <span>{msg.name}</span>
+                    </div>
+                    <p className="msg-content">"{msg.message}"</p>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>

@@ -1,106 +1,137 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Heart } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Sparkles, X, Maximize2 } from 'lucide-react';
 import './OurStory.css';
 
-const storyEvents = [
+const chapters = [
   {
-    year: '2019',
-    title: 'Lần đầu gặp nhau',
-    location: 'Đại học FPT',
-    description: '"Lần đầu tiên chúng mình gặp nhau, ánh mắt ấy đã làm trái tim lỡ nhịp..."',
-    image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop'
+    chapter: 'CHAPTER 01',
+    title: 'THE DAY WE MET',
+    subtitle: 'Lần Đầu Gặp Nỡ',
+    date: 'Tháng 9, 2019',
+    description: 'Mọi câu chuyện tình yêu vĩ đại đều bắt đầu từ một khoảnh khắc tình cờ. Ngày hôm ấy tại khuôn viên trường đại học, ánh mắt đầu tiên trao nhau đã mở ra một hành trình không bao giờ quên.',
+    image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1000&auto=format&fit=crop',
   },
   {
-    year: '2020',
-    title: 'Bắt đầu hẹn hò',
-    location: 'Hà Nội',
-    description: 'Những buổi hẹn hò đầu tiên, những cái nắm tay ngượng ngùng và lời yêu chưa dám ngỏ.',
-    image: 'https://images.unsplash.com/photo-1534080182604-bd9aeb2405ed?q=80&w=800&auto=format&fit=crop'
+    chapter: 'CHAPTER 02',
+    title: 'WHEN WE FELL IN LOVE',
+    subtitle: 'Rung Động Đầu Tiên',
+    date: 'Tháng 2, 2020',
+    description: 'Những buổi hẹn hò dưới cơn mưa nhẹ, những cuộc trò chuyện kéo dài thấu đêm. Minh & Phương nhận ra đối phương chính là mảnh ghép còn thiếu trong cuộc đời mình.',
+    image: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1000&auto=format&fit=crop',
   },
   {
-    year: '2023',
-    title: 'Những chuyến đi',
-    location: 'Khắp mọi nơi',
-    description: 'Cùng nhau rong ruổi qua những nẻo đường, mỗi chuyến đi là một kỷ niệm khó quên.',
-    image: 'https://images.unsplash.com/photo-1504198458649-3128b932f49e?q=80&w=800&auto=format&fit=crop'
+    chapter: 'CHAPTER 03',
+    title: 'THE MOMENT WE KNEW',
+    subtitle: 'Hành Trình Gắn Kết',
+    date: 'Tháng 10, 2022',
+    description: 'Trải qua vô vàn chuyến đi khám phá những vùng đất mới, cùng nhau vượt qua những thử thách trong cuộc sống. Tình yêu cứ thế lớn dần lên theo năm tháng.',
+    image: 'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1000&auto=format&fit=crop',
   },
   {
-    year: '2026',
-    title: 'We said YES 💍',
-    location: 'Đà Lạt',
-    description: 'Một lời cầu hôn bất ngờ, một lời đồng ý chân thành. Chuyến hành trình mới bắt đầu.',
-    image: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop'
+    chapter: 'CHAPTER 04',
+    title: 'FOREVER STARTS HERE',
+    subtitle: 'Khởi Đầu Vĩnh Cửu',
+    date: 'Tháng 12, 2026',
+    description: 'Và rồi Minh & Phương quyết định cùng nhau bước vào chương mới của cuộc đời — Nơi nụ cười, hạnh phúc và lời hứa chân thành sẽ kéo dài mãi mãi.',
+    image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1000&auto=format&fit=crop',
   }
 ];
 
 export default function OurStory() {
+  const [selectedImg, setSelectedImg] = useState(null);
+
   return (
-    <section className="story-section section-padding bg-surface" id="our-story">
+    <section className="our-story-section section-padding" id="our-story">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div 
+          className="section-header text-center"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
         >
-          <h2 className="title">Câu chuyện tình yêu</h2>
-          <p className="subtitle">Từ những ngày đầu tiên đến mãi mãi về sau</p>
+          <span className="section-badge font-sans">OUR STORY</span>
+          <h2 className="title font-serif">Câu Chuyện Tình Yêu</h2>
+          <p className="subtitle">Hành trình tìm thấy nhau và lựa chọn bên nhau trọn đời</p>
         </motion.div>
 
-        <div className="timeline">
-          {storyEvents.map((event, index) => {
-            const isLeft = index % 2 === 0;
+        <div className="chapters-container">
+          {chapters.map((item, index) => {
+            const isEven = index % 2 === 0;
             return (
-              <div key={index} className={`timeline-row ${isLeft ? 'row-left' : 'row-right'}`}>
-                
-                {/* Image Side */}
-                <motion.div 
-                  className="timeline-image-container"
-                  initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <div className="image-frame">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={event.image} alt={event.title} loading="lazy" />
-                  </div>
-                </motion.div>
-
-                {/* Center Divider / Dot */}
-                <div className="timeline-divider">
-                  <div className="timeline-dot-wrapper">
-                    <div className="timeline-dot-outer">
-                      <Heart size={16} fill="#C71B20" color="#C71B20" />
+              <motion.div 
+                key={index}
+                className={`chapter-row ${isEven ? 'row-normal' : 'row-reverse'}`}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="chapter-img-col">
+                  <div 
+                    className="chapter-img-wrapper clickable-img"
+                    onClick={() => setSelectedImg(item)}
+                  >
+                    <img src={item.image} alt={item.title} />
+                    <span className="chapter-tag">{item.chapter}</span>
+                    <div className="img-hover-overlay">
+                      <Maximize2 size={24} color="#FFF" />
+                      <span>Xem ảnh phóng to</span>
                     </div>
                   </div>
-                  <div className="timeline-line"></div>
                 </div>
 
-                {/* Content Side */}
-                <motion.div 
-                  className="timeline-content-container"
-                  initial={{ opacity: 0, x: isLeft ? 50 : -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                >
-                  <div className="timeline-content">
-                    <h3 className="event-year font-serif">{event.year}</h3>
-                    <h4 className="event-title font-sans">{event.title}</h4>
-                    <p className="event-location font-sans text-gold text-sm mb-3">📍 {event.location}</p>
-                    <p className="event-desc italic text-muted leading-relaxed">{event.description}</p>
+                <div className="chapter-text-col">
+                  <div className="chapter-content">
+                    <div className="chapter-date font-sans">
+                      <Sparkles size={14} color="var(--color-gold)" />
+                      <span>{item.date}</span>
+                    </div>
+                    <h3 className="chapter-title font-serif">{item.title}</h3>
+                    <h4 className="chapter-subtitle">{item.subtitle}</h4>
+                    <p className="chapter-desc">{item.description}</p>
                   </div>
-                </motion.div>
-
-              </div>
+                </div>
+              </motion.div>
             );
           })}
         </div>
       </div>
+
+      {/* Lightbox Popup Modal */}
+      <AnimatePresence>
+        {selectedImg && (
+          <motion.div 
+            className="img-popup-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImg(null)}
+          >
+            <button className="popup-close-btn" onClick={() => setSelectedImg(null)}>
+              <X size={28} />
+            </button>
+
+            <motion.div 
+              className="popup-content-box"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img src={selectedImg.image} alt={selectedImg.title} />
+              <div className="popup-caption">
+                <span className="popup-badge font-sans">{selectedImg.chapter}</span>
+                <h4 className="font-serif">{selectedImg.title} — {selectedImg.subtitle}</h4>
+                <p className="font-sans">{selectedImg.date}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

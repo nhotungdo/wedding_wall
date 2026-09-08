@@ -1,80 +1,102 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Heart } from 'lucide-react';
 import './Hero.css';
 
 export default function Hero({ onEnter }) {
+  const [daysLeft, setDaysLeft] = useState(0);
+
+  useEffect(() => {
+    const weddingDate = new Date('2026-12-20T17:30:00');
+    const updateCountdown = () => {
+      const now = new Date();
+      const diffTime = weddingDate.getTime() - now.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      setDaysLeft(diffDays > 0 ? diffDays : 0);
+    };
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="cinematic-hero">
-      {/* 1. Base dark red background */}
       <div className="hero-base-bg"></div>
 
-      {/* 2. Slow zooming photo with overlay */}
       <motion.div 
         className="hero-image-container"
         initial={{ opacity: 0, scale: 1 }}
-        animate={{ opacity: 1, scale: 1.1 }}
+        animate={{ opacity: 1, scale: 1.08 }}
         transition={{ 
-          opacity: { delay: 1, duration: 2 },
-          scale: { delay: 1, duration: 20, ease: "linear" }
+          opacity: { duration: 1.5 },
+          scale: { duration: 25, ease: "linear" }
         }}
       >
         <div className="hero-overlay"></div>
       </motion.div>
 
-      {/* 3. The Content Sequence */}
       <div className="hero-content">
-        
-        {/* Phase 1: Small Intro Text (0-1s) */}
-        <motion.p 
-          className="intro-text font-sans"
-          initial={{ opacity: 0, y: 10 }}
+        <motion.div 
+          className="hero-badge"
+          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
+          transition={{ duration: 1, delay: 0.3 }}
         >
-          THE BEGINNING OF FOREVER
-        </motion.p>
-
-        {/* Phase 2: Main Names (3s) */}
-        <motion.h1 
-          className="hero-title font-serif"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, delay: 2.5 }}
-        >
-          Minh & Phương
-        </motion.h1>
-
-        {/* Phase 3: Date and Quote (4s) */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 3.5 }}
-        >
-          <p className="hero-date font-sans">20 • 12 • 2026</p>
-          <p className="hero-quote font-serif">
-            "We found love, and chose forever."
-          </p>
+          <Heart size={16} fill="var(--color-gold)" color="var(--color-gold)" />
+          <span>WEDDING INVITATION</span>
         </motion.div>
 
-        {/* Phase 4: Enter Button (5s) */}
+        <motion.div 
+          className="hero-names-wrapper"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.6 }}
+        >
+          <h1 className="hero-name">MINH</h1>
+          <span className="hero-ampersand">&amp;</span>
+          <h1 className="hero-name">PHƯƠNG</h1>
+        </motion.div>
+
+        <motion.p 
+          className="hero-tagline font-serif"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+        >
+          WE FOUND LOVE AND CHOSE FOREVER
+        </motion.p>
+
+        <motion.div
+          className="hero-date-box"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
+        >
+          <p className="hero-date font-sans">20 · 12 · 2026</p>
+          {daysLeft > 0 && (
+            <div className="days-counter">
+              <span>Ngày trọng đại còn <strong>{daysLeft}</strong> ngày</span>
+            </div>
+          )}
+        </motion.div>
+
         <motion.div
           className="enter-btn-wrapper"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 5 }}
+          transition={{ duration: 1, delay: 1.8 }}
         >
           <button className="btn enter-btn" onClick={onEnter}>
-            <span>ENTER OUR STORY</span>
+            <span>KHÁM PHÁ CÂU CHUYỆN</span>
             <ArrowDown size={18} />
           </button>
         </motion.div>
       </div>
-      
-      {/* Subtle particles for cinematic feel */}
+
       <div className="particles-container">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <motion.div
             key={i}
             className="particle"
@@ -85,12 +107,12 @@ export default function Hero({ onEnter }) {
             }}
             animate={{ 
               y: "-10vh",
-              opacity: [0, 0.5, 0]
+              opacity: [0, 0.6, 0]
             }}
             transition={{ 
-              duration: Math.random() * 10 + 10,
+              duration: Math.random() * 10 + 12,
               repeat: Infinity,
-              delay: Math.random() * 10,
+              delay: Math.random() * 8,
               ease: "linear"
             }}
           />

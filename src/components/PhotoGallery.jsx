@@ -2,140 +2,189 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import './PhotoGallery.css';
 
-const images = [
+const albums = [
+  { id: 'ALL', name: 'TẤT CẢ ALBUM' },
+  { id: 'PRE-WEDDING', name: 'PRE-WEDDING' },
+  { id: 'OUR JOURNEY', name: 'OUR JOURNEY' },
+  { id: 'LITTLE MOMENTS', name: 'LITTLE MOMENTS' },
+  { id: 'FOREVER TOGETHER', name: 'FOREVER TOGETHER' }
+];
+
+const galleryImages = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop",
-    category: "wedding"
+    category: 'PRE-WEDDING',
+    title: 'Ánh Nắng Ban Mai',
+    src: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop'
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=2070&auto=format&fit=crop",
-    category: "memories"
+    category: 'PRE-WEDDING',
+    title: 'Nụ Cười Hạnh Phúc',
+    src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1200&auto=format&fit=crop'
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
-    category: "wedding"
+    category: 'OUR JOURNEY',
+    title: 'Chuyến Đi Đà Lạt',
+    src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop'
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1974&auto=format&fit=crop",
-    category: "memories"
+    category: 'OUR JOURNEY',
+    title: 'Hoàng Hôn Phú Quốc',
+    src: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop'
   },
   {
     id: 5,
-    src: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2070&auto=format&fit=crop",
-    category: "wedding"
+    category: 'LITTLE MOMENTS',
+    title: 'Buổi Sáng Bình Yên',
+    src: 'https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1200&auto=format&fit=crop'
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1621801306185-3746d03d1db1?q=80&w=2070&auto=format&fit=crop",
-    category: "memories"
+    category: 'LITTLE MOMENTS',
+    title: 'Góc Cà Phê Quen',
+    src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop'
+  },
+  {
+    id: 7,
+    category: 'FOREVER TOGETHER',
+    title: 'Lời Hứa Dưới Mưa',
+    src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200&auto=format&fit=crop'
+  },
+  {
+    id: 8,
+    category: 'FOREVER TOGETHER',
+    title: 'Mối Tình Vĩnh Cửu',
+    src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=1200&auto=format&fit=crop'
   }
 ];
 
 export default function PhotoGallery() {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('ALL');
+  const [selectedImgIndex, setSelectedImgIndex] = useState(null);
 
-  const filteredImages = images.filter(img => 
-    activeTab === 'all' ? true : img.category === activeTab
-  );
+  const filteredImages = activeTab === 'ALL'
+    ? galleryImages
+    : galleryImages.filter(img => img.category === activeTab);
+
+  const openLightbox = (index) => {
+    setSelectedImgIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setSelectedImgIndex(null);
+  };
+
+  const showPrev = (e) => {
+    e.stopPropagation();
+    setSelectedImgIndex((prev) => (prev === 0 ? filteredImages.length - 1 : prev - 1));
+  };
+
+  const showNext = (e) => {
+    e.stopPropagation();
+    setSelectedImgIndex((prev) => (prev === filteredImages.length - 1 ? 0 : prev + 1));
+  };
 
   return (
-    <section className="gallery-section section-padding" id="gallery">
+    <section className="gallery-section section-padding" id="memories">
       <div className="container">
-        <motion.div
+        <motion.div 
+          className="section-header text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-10"
         >
-          <h2 className="title">Album Kỷ Niệm</h2>
-          <p className="subtitle">Những khoảnh khắc đáng nhớ của hai đứa</p>
+          <span className="section-badge font-sans">OUR MEMORIES</span>
+          <h2 className="title font-serif">Bộ Ảnh Kỷ Niệm</h2>
+          <p className="subtitle">Lưu giữ từng khoảnh khắc tuyệt vời của Minh &amp; Phương</p>
         </motion.div>
 
-        {/* Filter Tabs */}
-        <motion.div 
-          className="gallery-filters"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <button 
-            className={`filter-btn ${activeTab === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveTab('all')}
-          >
-            Tất cả
-          </button>
-          <button 
-            className={`filter-btn ${activeTab === 'wedding' ? 'active' : ''}`}
-            onClick={() => setActiveTab('wedding')}
-          >
-            Ảnh cưới
-          </button>
-          <button 
-            className={`filter-btn ${activeTab === 'memories' ? 'active' : ''}`}
-            onClick={() => setActiveTab('memories')}
-          >
-            Kỷ niệm
-          </button>
-        </motion.div>
+        {/* Tab Album Filter */}
+        <div className="gallery-tabs">
+          {albums.map((tab) => (
+            <button
+              key={tab.id}
+              className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.name}
+            </button>
+          ))}
+        </div>
 
-        {/* Gallery Grid */}
-        <motion.div layout className="masonry-grid mt-8">
+        {/* Image Grid */}
+        <motion.div className="gallery-grid" layout>
           <AnimatePresence>
-            {filteredImages.map((img) => (
-              <motion.div 
-                layout
+            {filteredImages.map((img, index) => (
+              <motion.div
                 key={img.id}
-                className="masonry-item"
+                className="gallery-item"
+                layout
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5 }}
-                onClick={() => setSelectedImage(img.src)}
+                transition={{ duration: 0.4 }}
+                onClick={() => openLightbox(index)}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.src} alt={`Kỷ niệm ${img.category}`} loading="lazy" />
-                <div className="overlay">
-                  <span className="font-serif">Xem ảnh</span>
+                <img src={img.src} alt={img.title} />
+                <div className="gallery-overlay">
+                  <Maximize2 size={24} color="#FFF" />
+                  <span className="gallery-img-title font-serif">{img.title}</span>
+                  <span className="gallery-img-cat">{img.category}</span>
                 </div>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
-      </div>
 
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div 
-            className="lightbox"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedImage(null)}
-          >
-            <button className="close-btn" onClick={() => setSelectedImage(null)}>
-              <X size={32} color="#FFF" />
-            </button>
-            <motion.img 
-              src={selectedImage} 
-              alt="Phóng to kỷ niệm"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Fullscreen Lightbox Modal */}
+        <AnimatePresence>
+          {selectedImgIndex !== null && (
+            <motion.div 
+              className="lightbox-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeLightbox}
+            >
+              <button className="lightbox-close" onClick={closeLightbox}>
+                <X size={28} />
+              </button>
+
+              <button className="lightbox-nav nav-left" onClick={showPrev}>
+                <ChevronLeft size={36} />
+              </button>
+
+              <motion.div 
+                className="lightbox-content"
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.9 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img 
+                  src={filteredImages[selectedImgIndex].src} 
+                  alt={filteredImages[selectedImgIndex].title} 
+                />
+                <div className="lightbox-caption">
+                  <h4 className="font-serif">{filteredImages[selectedImgIndex].title}</h4>
+                  <p>{filteredImages[selectedImgIndex].category} ({selectedImgIndex + 1} / {filteredImages.length})</p>
+                </div>
+              </motion.div>
+
+              <button className="lightbox-nav nav-right" onClick={showNext}>
+                <ChevronRight size={36} />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </section>
   );
 }

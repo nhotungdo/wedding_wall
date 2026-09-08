@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2, Heart } from 'lucide-react';
 import './RSVP.css';
 
 export default function RSVP() {
   const [formData, setFormData] = useState({
     name: '',
     attending: 'yes',
-    count: 1,
+    count: 2,
     message: ''
   });
   
@@ -17,22 +17,22 @@ export default function RSVP() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate submission (No DB needed per user request)
     setIsSubmitted(true);
   };
 
   return (
-    <section className="rsvp-section section-padding bg-surface" id="rsvp">
+    <section className="rsvp-section section-padding" id="rsvp">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-10"
+          className="section-header text-center"
         >
-          <h2 className="title">Xác nhận tham dự</h2>
-          <p className="subtitle">Sự hiện diện của bạn là niềm vinh hạnh cho gia đình chúng tôi</p>
+          <span className="section-badge font-sans">ARE YOU JOINING US?</span>
+          <h2 className="title font-serif">Xác Nhận Tham Dự</h2>
+          <p className="subtitle">Chúng mình rất mong được gặp bạn trong ngày đặc biệt này</p>
         </motion.div>
 
         <div className="rsvp-container">
@@ -47,10 +47,10 @@ export default function RSVP() {
                 onSubmit={handleSubmit}
               >
                 <div className="form-group">
-                  <label>Tên của bạn</label>
+                  <label className="form-label">Họ và tên</label>
                   <input 
                     type="text" 
-                    placeholder="Nhập tên của bạn..." 
+                    placeholder="Nhập họ và tên của bạn..." 
                     required 
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -58,9 +58,9 @@ export default function RSVP() {
                 </div>
                 
                 <div className="form-group">
-                  <label>Bạn có thể tham dự không?</label>
+                  <label className="form-label">Bạn sẽ tham dự chứ?</label>
                   <div className="radio-group">
-                    <label className="radio-label">
+                    <label className={`radio-label ${formData.attending === 'yes' ? 'selected' : ''}`}>
                       <input 
                         type="radio" 
                         name="attending" 
@@ -68,9 +68,9 @@ export default function RSVP() {
                         checked={formData.attending === 'yes'}
                         onChange={(e) => setFormData({...formData, attending: e.target.value})}
                       />
-                      <span>Có, mình sẽ đến ❤️</span>
+                      <span>Có, chắc chắn rồi ❤️</span>
                     </label>
-                    <label className="radio-label">
+                    <label className={`radio-label ${formData.attending === 'no' ? 'selected' : ''}`}>
                       <input 
                         type="radio" 
                         name="attending" 
@@ -78,7 +78,7 @@ export default function RSVP() {
                         checked={formData.attending === 'no'}
                         onChange={(e) => setFormData({...formData, attending: e.target.value})}
                       />
-                      <span>Rất tiếc, mình bận mất rồi</span>
+                      <span>Rất tiếc, mình không thể</span>
                     </label>
                   </div>
                 </div>
@@ -91,10 +91,10 @@ export default function RSVP() {
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                     >
-                      <label>Số người tham dự</label>
+                      <label className="form-label">Số người tham dự</label>
                       <div className="count-control">
                         <button type="button" onClick={() => setFormData(f => ({...f, count: Math.max(1, f.count - 1)}))}>-</button>
-                        <span>{formData.count}</span>
+                        <span>{formData.count} người</span>
                         <button type="button" onClick={() => setFormData(f => ({...f, count: Math.min(10, f.count + 1)}))}>+</button>
                       </div>
                     </motion.div>
@@ -102,18 +102,18 @@ export default function RSVP() {
                 </AnimatePresence>
 
                 <div className="form-group">
-                  <label>Lời nhắn cho cô dâu chú rể</label>
+                  <label className="form-label">Lời nhắn</label>
                   <textarea 
-                    placeholder="Gửi lời chúc tốt đẹp nhất..." 
+                    placeholder="Gửi lời nhắn cho dâu rể..." 
                     rows="3"
                     value={formData.message}
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
                   ></textarea>
                 </div>
 
-                <button type="submit" className="btn w-full mt-4">
+                <button type="submit" className="btn rsvp-submit-btn">
                   <Send size={18} />
-                  Xác nhận
+                  XÁC NHẬN THAM DỰ
                 </button>
               </motion.form>
             ) : (
@@ -124,18 +124,16 @@ export default function RSVP() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: "spring", bounce: 0.5 }}
               >
-                <CheckCircle2 size={60} color="#C71B20" />
-                <h3 className="font-serif text-primary mt-4">Cảm ơn bạn!</h3>
-                <p className="mt-2 text-muted">
-                  {formData.attending === 'yes' 
-                    ? `Hẹn gặp lại ${formData.name} vào ngày vui của chúng mình nhé ❤️`
-                    : `Cảm ơn ${formData.name} đã gửi lời chúc mừng đến chúng mình ❤️`}
+                <Heart size={64} fill="var(--color-primary)" color="var(--color-primary)" />
+                <h3 className="font-serif success-title mt-4">THANK YOU ❤️</h3>
+                <p className="success-desc mt-2">
+                  Hẹn gặp bạn tại ngày trọng đại của Minh &amp; Phương.
                 </p>
                 <button 
                   className="btn btn-outline mt-6"
                   onClick={() => setIsSubmitted(false)}
                 >
-                  Gửi phản hồi khác
+                  Xác nhận lại
                 </button>
               </motion.div>
             )}

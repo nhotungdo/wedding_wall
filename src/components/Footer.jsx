@@ -29,17 +29,17 @@ export default function Footer() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="footer-brand mb-6">
-            <h2 className="font-serif text-gold" style={{ fontSize: '2.5rem' }}>Minh & Phương</h2>
-            <div className="flex items-center justify-center gap-2 mt-2">
-              <Heart size={16} fill="#C9A86A" color="#C9A86A" />
-              <p className="font-sans text-gold-light tracking-widest text-sm">20 • 12 • 2026</p>
-              <Heart size={16} fill="#C9A86A" color="#C9A86A" />
+          <div className="footer-brand">
+            <h2 className="font-serif footer-title">MINH &amp; PHƯƠNG</h2>
+            <div className="footer-date-row">
+              <Heart size={14} fill="var(--color-gold-light)" color="var(--color-gold-light)" />
+              <span>20 · 12 · 2026</span>
+              <Heart size={14} fill="var(--color-gold-light)" color="var(--color-gold-light)" />
             </div>
           </div>
 
-          <div className="footer-thank-you mb-10">
-            <p className="font-serif italic" style={{ fontSize: '1.2rem', color: '#FFF' }}>
+          <div className="footer-thank-you">
+            <p className="font-serif italic">
               "Chân thành cảm ơn bạn đã đến chung vui<br />và trở thành một phần trong câu chuyện của chúng mình."
             </p>
           </div>
@@ -47,42 +47,44 @@ export default function Footer() {
           <div className="footer-info-grid">
             {/* Groom Contact */}
             <div className="contact-box">
-              <h4 className="font-sans text-gold mb-2 text-sm uppercase tracking-wider">Liên hệ Chú rể</h4>
-              <p className="flex items-center gap-2 justify-center mb-2">
+              <h4 className="font-sans contact-role">CHÚ RỂ MINH</h4>
+              <p className="contact-phone">
                 <Phone size={14} /> 0901 234 567
               </p>
               <div className="social-links">
-                <a href="#" className="social-icon" aria-label="Facebook">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Facebook">
                   <FacebookIcon />
                 </a>
-                <a href="#" className="social-icon" aria-label="Instagram">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram">
                   <InstagramIcon />
                 </a>
               </div>
             </div>
 
-            {/* Divider */}
             <div className="vertical-divider"></div>
 
             {/* Bride Contact */}
             <div className="contact-box">
-              <h4 className="font-sans text-gold mb-2 text-sm uppercase tracking-wider">Liên hệ Cô dâu</h4>
-              <p className="flex items-center gap-2 justify-center mb-2">
+              <h4 className="font-sans contact-role">CÔ DÂU PHƯƠNG</h4>
+              <p className="contact-phone">
                 <Phone size={14} /> 0987 654 321
               </p>
               <div className="social-links">
-                <a href="#" className="social-icon" aria-label="Facebook">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Facebook">
                   <FacebookIcon />
                 </a>
-                <a href="#" className="social-icon" aria-label="Instagram">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram">
                   <InstagramIcon />
                 </a>
               </div>
             </div>
-
           </div>
 
-
+          <div className="footer-bottom">
+            <p className="made-with font-sans">
+              Made with ❤️ for <strong>Minh &amp; Phương Wedding 2026</strong>
+            </p>
+          </div>
         </motion.div>
       </div>
     </footer>

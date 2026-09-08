@@ -1,0 +1,128 @@
+.final-message-section {
+  background-color: var(--color-surface);
+  position: relative;
+}
+
+.final-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+}
+
+.final-img-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+
+.final-card:hover .final-img-background {
+  transform: scale(1.05);
+}
+
+.final-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(160, 21, 25, 0.7) 0%, rgba(0, 0, 0, 0.85) 100%);
+}
+
+.final-content {
+  position: relative;
+  z-index: 2;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.final-names {
+  font-size: 3rem;
+  letter-spacing: 4px;
+  color: white;
+}
+
+.final-quote-box {
+  line-height: 1.4;
+}
+
+.final-quote-box .line-1 {
+  font-size: 1.2rem;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.85);
+}
+
+.final-quote-box .line-2 {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--color-gold-light);
+}
+
+.final-quote-box .line-3 {
+  font-size: 1.4rem;
+  letter-spacing: 4px;
+  color: white;
+}
+
+.final-heart-icon {
+  margin: 6px 0;
+  animation: heartPulse 1.5s infinite;
+}
+
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.final-thankyou {
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  color: white;
+  max-width: 600px;
+}
+
+.final-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.8);
+}
+
+.final-zoom-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--color-gold-light);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: var(--color-gold-light);
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .final-names {
+    font-size: 2.2rem;
+  }
+  .final-quote-box .line-2 {
+    font-size: 1.4rem;
+  }
+  .final-thankyou {
+    font-size: 1.1rem;
+  }
+}

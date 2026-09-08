@@ -1,109 +1,114 @@
 .guestbook-section {
-  background-color: var(--color-background);
+  background-color: #FFFFFF;
+  position: relative;
 }
 
 .guestbook-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: flex-start;
+  gap: 35px;
+  margin-top: 35px;
 }
 
 .guestbook-form-container {
-  position: sticky;
-  top: 100px;
-}
-
-.guestbook-form {
-  background: white;
+  background: var(--color-surface);
+  border-radius: 18px;
   padding: 30px;
-  border-radius: 12px;
+  border: 1px solid rgba(199, 27, 32, 0.15);
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  border-top: 4px solid var(--color-primary);
 }
 
-.guestbook-form .form-group input,
-.guestbook-form .form-group textarea {
+.form-title {
+  font-size: 1.5rem;
+  color: var(--color-primary-dark);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.form-sub {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+}
+
+.guestbook-form input[type="text"],
+.guestbook-form textarea {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #E0E0E0;
-  border-radius: 8px;
+  border: 1px solid rgba(199, 27, 32, 0.2);
+  border-radius: 10px;
   font-family: var(--font-sans);
-  font-size: 1rem;
-  margin-bottom: 15px;
-  transition: border-color 0.3s;
+  font-size: 0.95rem;
+  background: white;
 }
 
-.guestbook-form .form-group input:focus,
-.guestbook-form .form-group textarea:focus {
+.guestbook-form input[type="text"]:focus,
+.guestbook-form textarea:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(199, 27, 32, 0.1);
+}
+
+.guestbook-submit-btn {
+  width: 100%;
+  padding: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .messages-feed {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  max-height: 600px;
-  overflow-y: auto;
-  padding-right: 10px;
+  gap: 16px;
 }
 
-/* Custom scrollbar for messages feed */
-.messages-feed::-webkit-scrollbar {
-  width: 4px;
+.feed-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  color: var(--color-primary-dark);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-primary-light);
 }
-.messages-feed::-webkit-scrollbar-track {
-  background: var(--color-surface);
-}
-.messages-feed::-webkit-scrollbar-thumb {
-  background: var(--color-gold-light);
-  border-radius: 4px;
+
+.feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 .message-card {
   background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  border: 1px solid var(--color-surface);
+  padding: 18px 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  border: 1px solid rgba(201, 168, 106, 0.3);
   position: relative;
-}
-
-.quote-icon {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  opacity: 0.2;
-}
-
-.msg-content {
-  color: var(--color-text-main);
-  font-size: 1.05rem;
-  line-height: 1.6;
-  margin-bottom: 15px;
-  position: relative;
-  z-index: 1;
-  text-indent: 30px; /* Make room for quote icon */
 }
 
 .msg-author {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--color-primary);
-  font-size: 1.2rem;
-  text-align: right;
-  font-weight: 600;
+  margin-bottom: 6px;
 }
 
-@media (max-width: 768px) {
+.msg-content {
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+@media (max-width: 850px) {
   .guestbook-grid {
     grid-template-columns: 1fr;
-  }
-  
-  .guestbook-form-container {
-    position: static;
-  }
-  
-  .messages-feed {
-    max-height: 400px;
   }
 }
