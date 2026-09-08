@@ -103,14 +103,11 @@ export default function MusicPlayer({ startPlaying }) {
       >
         <div className={`music-icon-wrapper ${isPlaying ? 'spinning' : ''}`}>
           {isPlaying ? (
-            <Pause size={18} color="#FFF" />
+            <Pause size={15} color="#FFF" />
           ) : (
-            <Music2 size={18} color="#FFF" />
+            <Music2 size={15} color="#FFF" />
           )}
         </div>
-        {isPlaying && (
-          <span className="music-now-playing font-sans">♫ Đang phát nhạc</span>
-        )}
       </button>
     </div>
   );
