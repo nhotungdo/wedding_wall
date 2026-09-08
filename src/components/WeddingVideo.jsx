@@ -1,12 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, Film } from 'lucide-react';
+import { Play, X } from 'lucide-react';
 import './WeddingVideo.css';
 
 export default function WeddingVideo() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <section className="video-section section-padding" id="video">
@@ -50,40 +56,43 @@ export default function WeddingVideo() {
           </div>
         </motion.div>
 
-        {/* Video Player Modal */}
-        <AnimatePresence>
-          {isPlaying && (
-            <motion.div 
-              className="video-modal-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsPlaying(false)}
-            >
-              <button className="video-modal-close" onClick={() => setIsPlaying(false)}>
-                <X size={28} />
-              </button>
-
+        {/* Video Player Modal rendered into document.body */}
+        {isMounted && createPortal(
+          <AnimatePresence>
+            {isPlaying && (
               <motion.div 
-                className="video-modal-wrapper"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.8 }}
-                onClick={(e) => e.stopPropagation()}
+                className="video-modal-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsPlaying(false)}
               >
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1"
-                  title="Wedding Pre-wedding Video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+                <button className="video-modal-close" onClick={() => setIsPlaying(false)}>
+                  <X size={28} />
+                </button>
+
+                <motion.div 
+                  className="video-modal-wrapper"
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.8 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1"
+                    title="Wedding Pre-wedding Video"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
       </div>
     </section>
   );

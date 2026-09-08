@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Heart, MessageSquare } from 'lucide-react';
 import './Guestbook.css';
@@ -11,10 +11,27 @@ const initialMessages = [
   { id: 3, name: 'Quỳnh Trang', message: 'Chúc dâu rể sớm có hoàng tử công chúa kháu khỉnh!' }
 ];
 
+const STORAGE_KEY = 'wedding_guestbook_messages';
+
 export default function Guestbook() {
   const [messages, setMessages] = useState(initialMessages);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
+
+  // Load saved messages from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setMessages(parsed);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load guestbook messages:', e);
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +43,15 @@ export default function Guestbook() {
       message: message.trim()
     };
 
-    setMessages([newMessage, ...messages]);
+    const updated = [newMessage, ...messages];
+    setMessages(updated);
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    } catch (e) {
+      console.error('Failed to save guestbook message:', e);
+    }
+
     setName('');
     setMessage('');
   };

@@ -48,7 +48,7 @@ export default function Home() {
         
         {/* Full Flow of 19 Sections */}
         {isStoryEntered && (
-          <div className="content-fade-in" style={{ animation: 'fadeInUp 1s ease-out forwards' }}>
+          <div className="content-fade-in" style={{ animation: 'fadeInOnly 0.8s ease-out forwards' }}>
             {/* 3. Our Story */}
             <OurStory />
 
@@ -107,14 +107,12 @@ export default function Home() {
       </div>
 
       <style jsx global>{`
-        @keyframes fadeInUp {
+        @keyframes fadeInOnly {
           from {
             opacity: 0;
-            transform: translateY(40px);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
           }
         }
       `}</style>

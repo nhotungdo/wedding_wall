@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Plus, X, Maximize2 } from 'lucide-react';
 import './PhotoWall.css';
@@ -13,16 +14,44 @@ const initialPhotos = [
   "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=600&auto=format&fit=crop"
 ];
 
+const STORAGE_KEY = 'wedding_photowall_photos';
+
 export default function PhotoWall() {
   const [photos, setPhotos] = useState(initialPhotos);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPhotos(parsed);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load photowall photos:', e);
+    }
+  }, []);
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setPhotos([imageUrl, ...photos]);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64Url = reader.result;
+        const updated = [base64Url, ...photos];
+        setPhotos(updated);
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        } catch (err) {
+          console.error('Failed to save photo to localStorage:', err);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -73,7 +102,7 @@ export default function PhotoWall() {
 
             {photos.map((photoUrl, index) => (
               <motion.div 
-                key={photoUrl + index}
+                key={index}
                 className="wall-item clickable-wall-item"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -91,36 +120,39 @@ export default function PhotoWall() {
         </div>
       </div>
 
-      {/* Lightbox Popup Modal for Photo Wall */}
-      <AnimatePresence>
-        {selectedPhoto && (
-          <motion.div 
-            className="img-popup-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedPhoto(null)}
-          >
-            <button className="popup-close-btn" onClick={() => setSelectedPhoto(null)}>
-              <X size={28} />
-            </button>
-
+      {/* Lightbox Popup Modal rendered into document.body */}
+      {isMounted && createPortal(
+        <AnimatePresence>
+          {selectedPhoto && (
             <motion.div 
-              className="popup-content-box"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              onClick={(e) => e.stopPropagation()}
+              className="img-popup-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedPhoto(null)}
             >
-              <img src={selectedPhoto} alt="Wedding Wall Preview" />
-              <div className="popup-caption">
-                <span className="popup-badge font-sans">WEDDING WALL</span>
-                <h4 className="font-serif">Khoảnh Khắc Kỷ Niệm</h4>
-              </div>
+              <button className="popup-close-btn" onClick={() => setSelectedPhoto(null)}>
+                <X size={28} />
+              </button>
+
+              <motion.div 
+                className="popup-content-box"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.8 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img src={selectedPhoto} alt="Wedding Wall Preview" />
+                <div className="popup-caption">
+                  <span className="popup-badge font-sans">WEDDING WALL</span>
+                  <h4 className="font-serif">Khoảnh Khắc Kỷ Niệm</h4>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }

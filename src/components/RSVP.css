@@ -31,7 +31,8 @@
 }
 
 .rsvp-form input[type="text"],
-.rsvp-form textarea {
+.rsvp-form textarea,
+.form-select {
   width: 100%;
   padding: 14px 16px;
   border: 1px solid rgba(199, 27, 32, 0.2);
@@ -39,10 +40,12 @@
   font-family: var(--font-sans);
   font-size: 0.95rem;
   transition: border-color 0.3s;
+  background-color: white;
 }
 
 .rsvp-form input[type="text"]:focus,
-.rsvp-form textarea:focus {
+.rsvp-form textarea:focus,
+.form-select:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(199, 27, 32, 0.1);
@@ -141,4 +144,5 @@
 .success-desc {
   font-size: 1.05rem;
   color: var(--color-text-main);
+  line-height: 1.6;
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import './PhotoGallery.css';
@@ -67,6 +68,11 @@ const galleryImages = [
 export default function PhotoGallery() {
   const [activeTab, setActiveTab] = useState('ALL');
   const [selectedImgIndex, setSelectedImgIndex] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const filteredImages = activeTab === 'ALL'
     ? galleryImages
@@ -143,47 +149,50 @@ export default function PhotoGallery() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Fullscreen Lightbox Modal */}
-        <AnimatePresence>
-          {selectedImgIndex !== null && (
-            <motion.div 
-              className="lightbox-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={closeLightbox}
-            >
-              <button className="lightbox-close" onClick={closeLightbox}>
-                <X size={28} />
-              </button>
-
-              <button className="lightbox-nav nav-left" onClick={showPrev}>
-                <ChevronLeft size={36} />
-              </button>
-
+        {/* Fullscreen Lightbox Modal rendered into document.body */}
+        {isMounted && createPortal(
+          <AnimatePresence>
+            {selectedImgIndex !== null && (
               <motion.div 
-                className="lightbox-content"
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.9 }}
-                onClick={(e) => e.stopPropagation()}
+                className="lightbox-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={closeLightbox}
               >
-                <img 
-                  src={filteredImages[selectedImgIndex].src} 
-                  alt={filteredImages[selectedImgIndex].title} 
-                />
-                <div className="lightbox-caption">
-                  <h4 className="font-serif">{filteredImages[selectedImgIndex].title}</h4>
-                  <p>{filteredImages[selectedImgIndex].category} ({selectedImgIndex + 1} / {filteredImages.length})</p>
-                </div>
-              </motion.div>
+                <button className="lightbox-close" onClick={closeLightbox}>
+                  <X size={28} />
+                </button>
 
-              <button className="lightbox-nav nav-right" onClick={showNext}>
-                <ChevronRight size={36} />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <button className="lightbox-nav nav-left" onClick={showPrev}>
+                  <ChevronLeft size={36} />
+                </button>
+
+                <motion.div 
+                  className="lightbox-content"
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.9 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img 
+                    src={filteredImages[selectedImgIndex].src} 
+                    alt={filteredImages[selectedImgIndex].title} 
+                  />
+                  <div className="lightbox-caption">
+                    <h4 className="font-serif">{filteredImages[selectedImgIndex].title}</h4>
+                    <p>{filteredImages[selectedImgIndex].category} ({selectedImgIndex + 1} / {filteredImages.length})</p>
+                  </div>
+                </motion.div>
+
+                <button className="lightbox-nav nav-right" onClick={showNext}>
+                  <ChevronRight size={36} />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
       </div>
     </section>
   );

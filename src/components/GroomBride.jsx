@@ -1,23 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, Smile, Coffee, X, Maximize2 } from 'lucide-react';
+import { Heart, Smile, Coffee, Star, X, Maximize2 } from 'lucide-react';
 import './GroomBride.css';
 
 export default function GroomBride() {
   const [selectedPerson, setSelectedPerson] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const groomInfo = {
     title: 'CHÚ RỂ MINH',
-    name: 'ĐẶNG VĂN MINH',
+    name: 'VŨ VĂN MINH',
     quote: '"The man who found his forever."',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop'
   };
 
   const brideInfo = {
     title: 'CÔ DÂU PHƯƠNG',
-    name: 'NGUYỄN THỊ PHƯƠNG',
+    name: 'LÊ THỊ PHƯƠNG',
     quote: '"The woman who made forever feel like home."',
     image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop'
   };
@@ -71,7 +77,7 @@ export default function GroomBride() {
                   <span><strong>Sở thích:</strong> Nhiếp ảnh, cà phê sáng &amp; du lịch phượt</span>
                 </div>
                 <div className="info-item">
-                  <Sparkles className="info-icon" size={16} />
+                  <Star className="info-icon" size={16} />
                   <span><strong>Fun fact:</strong> Luôn mang theo ống kính để chụp ảnh Phương</span>
                 </div>
               </div>
@@ -115,7 +121,7 @@ export default function GroomBride() {
                   <span><strong>Sở thích:</strong> Cắm hoa, làm bánh &amp; đọc sách</span>
                 </div>
                 <div className="info-item">
-                  <Sparkles className="info-icon" size={16} />
+                  <Star className="info-icon" size={16} />
                   <span><strong>Fun fact:</strong> Là "tổ trưởng hậu trường" trong mọi chuyến đi</span>
                 </div>
               </div>
@@ -124,37 +130,40 @@ export default function GroomBride() {
         </div>
       </div>
 
-      {/* Lightbox Popup Modal for Groom/Bride */}
-      <AnimatePresence>
-        {selectedPerson && (
-          <motion.div 
-            className="img-popup-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedPerson(null)}
-          >
-            <button className="popup-close-btn" onClick={() => setSelectedPerson(null)}>
-              <X size={28} />
-            </button>
-
+      {/* Lightbox Popup Modal rendered into document.body */}
+      {isMounted && createPortal(
+        <AnimatePresence>
+          {selectedPerson && (
             <motion.div 
-              className="popup-content-box"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              onClick={(e) => e.stopPropagation()}
+              className="img-popup-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedPerson(null)}
             >
-              <img src={selectedPerson.image} alt={selectedPerson.name} />
-              <div className="popup-caption">
-                <span className="popup-badge font-sans">{selectedPerson.title}</span>
-                <h4 className="font-serif">{selectedPerson.name}</h4>
-                <p className="font-serif italic">{selectedPerson.quote}</p>
-              </div>
+              <button className="popup-close-btn" onClick={() => setSelectedPerson(null)}>
+                <X size={28} />
+              </button>
+
+              <motion.div 
+                className="popup-content-box"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.8 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img src={selectedPerson.image} alt={selectedPerson.name} />
+                <div className="popup-caption">
+                  <span className="popup-badge font-sans">{selectedPerson.title}</span>
+                  <h4 className="font-serif">{selectedPerson.name}</h4>
+                  <p className="font-serif italic">{selectedPerson.quote}</p>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }

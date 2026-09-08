@@ -33,7 +33,7 @@ export default function Footer() {
             <h2 className="font-serif footer-title">MINH &amp; PHƯƠNG</h2>
             <div className="footer-date-row">
               <Heart size={14} fill="var(--color-gold-light)" color="var(--color-gold-light)" />
-              <span>20 · 12 · 2026</span>
+              <span>13 · 10 · 2026</span>
               <Heart size={14} fill="var(--color-gold-light)" color="var(--color-gold-light)" />
             </div>
           </div>
@@ -80,11 +80,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="footer-bottom">
-            <p className="made-with font-sans">
-              Made with ❤️ for <strong>Minh &amp; Phương Wedding 2026</strong>
-            </p>
-          </div>
+
         </motion.div>
       </div>
     </footer>

@@ -5,11 +5,20 @@ import { motion } from 'framer-motion';
 import { ArrowDown, Heart } from 'lucide-react';
 import './Hero.css';
 
+// Pre-generate stable particle data at module level so SSR & client always
+// render the exact same values (avoids React hydration mismatch).
+const PARTICLES = Array.from({ length: 15 }, (_, i) => ({
+  id: i,
+  startX: `${(i * 6.8) % 100}vw`,
+  duration: 12 + (i % 5) * 2,
+  delay: (i * 0.55) % 8,
+}));
+
 export default function Hero({ onEnter }) {
   const [daysLeft, setDaysLeft] = useState(0);
 
   useEffect(() => {
-    const weddingDate = new Date('2026-12-20T17:30:00');
+    const weddingDate = new Date('2026-10-13T17:30:00');
     const updateCountdown = () => {
       const now = new Date();
       const diffTime = weddingDate.getTime() - now.getTime();
@@ -74,7 +83,7 @@ export default function Hero({ onEnter }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 1.5 }}
         >
-          <p className="hero-date font-sans">20 · 12 · 2026</p>
+          <p className="hero-date font-sans">13 · 10 · 2026</p>
           {daysLeft > 0 && (
             <div className="days-counter">
               <span>Ngày trọng đại còn <strong>{daysLeft}</strong> ngày</span>
@@ -96,13 +105,13 @@ export default function Hero({ onEnter }) {
       </div>
 
       <div className="particles-container">
-        {[...Array(15)].map((_, i) => (
+        {PARTICLES.map((p) => (
           <motion.div
-            key={i}
+            key={p.id}
             className="particle"
             initial={{ 
               y: "100vh", 
-              x: `${Math.random() * 100}vw`,
+              x: p.startX,
               opacity: 0
             }}
             animate={{ 
@@ -110,9 +119,9 @@ export default function Hero({ onEnter }) {
               opacity: [0, 0.6, 0]
             }}
             transition={{ 
-              duration: Math.random() * 10 + 12,
+              duration: p.duration,
               repeat: Infinity,
-              delay: Math.random() * 8,
+              delay: p.delay,
               ease: "linear"
             }}
           />

@@ -14,7 +14,7 @@ export default function CountdownSection() {
   });
 
   useEffect(() => {
-    const weddingDate = new Date('2026-12-20T17:30:00').getTime();
+    const weddingDate = new Date('2026-10-13T17:30:00').getTime();
 
     const calculateTime = () => {
       const now = new Date().getTime();

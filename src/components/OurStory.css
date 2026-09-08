@@ -113,6 +113,12 @@
   margin-bottom: 8px;
 }
 
+.chapter-date-dot {
+  color: var(--color-gold);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
 .chapter-title {
   font-size: 1.8rem;
   color: var(--color-primary-dark);

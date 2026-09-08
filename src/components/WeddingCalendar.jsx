@@ -1,22 +1,23 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Calendar as CalendarIcon, Heart, Sparkles } from 'lucide-react';
+import { Calendar as CalendarIcon, Heart } from 'lucide-react';
 import './WeddingCalendar.css';
 
 export default function WeddingCalendar() {
-  // December 2026 calendar data
-  // Dec 1, 2026 is Tuesday. So empty cell for Mon (1 day offset).
   const weekDays = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'];
   
-  // Days array: empty strings for padding + numbers 1 to 31
+  // Days array for October 2026 (31 days)
   const daysGrid = [
-    '', 1, 2, 3, 4, 5, 6,
-    7, 8, 9, 10, 11, 12, 13,
-    14, 15, 16, 17, 18, 19, 20,
-    21, 22, 23, 24, 25, 26, 27,
-    28, 29, 30, 31, '', '', ''
+    '', '', '', 1, 2, 3, 4,
+    5, 6, 7, 8, 9, 10, 11,
+    12, 13, 14, 15, 16, 17, 18,
+    19, 20, 21, 22, 23, 24, 25,
+    26, 27, 28, 29, 30, 31, ''
   ];
+
+  // 3 Wedding Dates
+  const weddingDates = [14, 18, 19];
 
   return (
     <section className="wedding-calendar-section section-padding" id="wedding-calendar">
@@ -29,8 +30,8 @@ export default function WeddingCalendar() {
           transition={{ duration: 0.8 }}
         >
           <span className="section-badge font-sans">SAVE THE DATE</span>
-          <h2 className="title font-serif">Lịch Ngày Trọng Đại</h2>
-          <p className="subtitle">Tháng 12 Năm 2026 — Đánh dấu mốc thời gian vĩnh cửu</p>
+          <h2 className="title font-serif">Lịch Các Ngày Trọng Đại</h2>
+          <p className="subtitle">Tháng 10 Năm 2026 — Các mốc ngày vui của Vũ Văn Minh &amp; Lê Thị Phương</p>
         </motion.div>
 
         <motion.div 
@@ -43,9 +44,9 @@ export default function WeddingCalendar() {
           <div className="calendar-header">
             <div className="calendar-month font-serif">
               <CalendarIcon size={24} color="var(--color-primary)" />
-              <span>THÁNG 12 / 2026</span>
+              <span>THÁNG 10 / 2026</span>
             </div>
-            <p className="calendar-lunar font-sans">Nhằm ngày 12 tháng 11 năm Bính Ngọ (Âm Lịch)</p>
+            <p className="calendar-lunar font-sans">Tổ chức tiệc cưới vào 3 ngày đại hung Hỷ trong tháng 9 Âm Lịch</p>
           </div>
 
           <div className="calendar-grid-header">
@@ -58,7 +59,7 @@ export default function WeddingCalendar() {
 
           <div className="calendar-grid-body">
             {daysGrid.map((day, idx) => {
-              const isWeddingDay = day === 20;
+              const isWeddingDay = weddingDates.includes(day);
               return (
                 <div 
                   key={idx} 
@@ -67,11 +68,11 @@ export default function WeddingCalendar() {
                   {isWeddingDay ? (
                     <motion.div 
                       className="wedding-day-box"
-                      animate={{ scale: [1, 1.06, 1] }}
+                      animate={{ scale: [1, 1.08, 1] }}
                       transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                     >
                       <Heart className="wedding-heart-bg" size={32} fill="var(--color-primary)" color="var(--color-primary)" />
-                      <span className="day-number">20</span>
+                      <span className="day-number">{day}</span>
                     </motion.div>
                   ) : (
                     <span className="day-number">{day}</span>
@@ -81,10 +82,27 @@ export default function WeddingCalendar() {
             })}
           </div>
 
-          <div className="calendar-footer text-center">
-            <div className="highlight-tag">
-              <Sparkles size={16} color="var(--color-gold)" />
-              <span>CHỦ NHẬT, 20 THÁNG 12, 2026 — 17:30 KHAI TIỆC</span>
+          <div className="calendar-events-legend font-sans">
+            <div className="legend-item">
+              <span className="legend-dot">14</span>
+              <div>
+                <strong>Lần 1: Thứ Tư, 14/10/2026</strong>
+                <span>(04/09 Âm Lịch)</span>
+              </div>
+            </div>
+            <div className="legend-item">
+              <span className="legend-dot">18</span>
+              <div>
+                <strong>Lần 2 (Ngày 1): Chủ Nhật, 18/10/2026</strong>
+                <span>(08/09 Âm Lịch)</span>
+              </div>
+            </div>
+            <div className="legend-item">
+              <span className="legend-dot">19</span>
+              <div>
+                <strong>Lần 2 (Ngày 2): Thứ Hai, 19/10/2026</strong>
+                <span>(09/09 Âm Lịch)</span>
+              </div>
             </div>
           </div>
         </motion.div>

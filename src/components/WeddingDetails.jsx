@@ -42,8 +42,8 @@ export default function WeddingDetails() {
               <div className="info-row">
                 <Calendar className="text-gold" size={24} />
                 <div>
-                  <h4>Chủ nhật</h4>
-                  <p>20 Tháng 12, 2026</p>
+                  <h4>Thứ ba</h4>
+                  <p>13 Tháng 10, 2026</p>
                 </div>
               </div>
               <div className="info-row">
@@ -56,8 +56,8 @@ export default function WeddingDetails() {
               <div className="info-row">
                 <MapPin className="text-gold" size={24} />
                 <div>
-                  <h4>White Palace</h4>
-                  <p>108 Phạm Văn Đồng, TP. HCM</p>
+                  <h4>Tư Gia Dâu Rể</h4>
+                  <p>Xã Châu Ninh, Huyện Khoái Châu, Hưng Yên</p>
                 </div>
               </div>
               

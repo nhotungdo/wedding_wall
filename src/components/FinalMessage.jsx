@@ -1,12 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X, Maximize2 } from 'lucide-react';
 import './FinalMessage.css';
 
 export default function FinalMessage() {
   const [showPopup, setShowPopup] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const finalImg = 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop';
 
@@ -54,36 +60,39 @@ export default function FinalMessage() {
         </motion.div>
       </div>
 
-      {/* Lightbox Popup Modal for Final Message Image */}
-      <AnimatePresence>
-        {showPopup && (
-          <motion.div 
-            className="img-popup-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowPopup(false)}
-          >
-            <button className="popup-close-btn" onClick={() => setShowPopup(false)}>
-              <X size={28} />
-            </button>
-
+      {/* Lightbox Popup Modal rendered into document.body */}
+      {isMounted && createPortal(
+        <AnimatePresence>
+          {showPopup && (
             <motion.div 
-              className="popup-content-box"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              onClick={(e) => e.stopPropagation()}
+              className="img-popup-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowPopup(false)}
             >
-              <img src={finalImg} alt="Minh & Phương Final Picture" />
-              <div className="popup-caption">
-                <span className="popup-badge font-sans">MINH &amp; PHƯƠNG</span>
-                <h4 className="font-serif">TWO HEARTS · ONE BEAUTIFUL STORY · ONE FOREVER</h4>
-              </div>
+              <button className="popup-close-btn" onClick={() => setShowPopup(false)}>
+                <X size={28} />
+              </button>
+
+              <motion.div 
+                className="popup-content-box"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.8 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img src={finalImg} alt="Minh & Phương Final Picture" />
+                <div className="popup-caption">
+                  <span className="popup-badge font-sans">MINH &amp; PHƯƠNG</span>
+                  <h4 className="font-serif">TWO HEARTS · ONE BEAUTIFUL STORY · ONE FOREVER</h4>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }

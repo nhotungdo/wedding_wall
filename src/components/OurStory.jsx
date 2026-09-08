@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, X, Maximize2 } from 'lucide-react';
+import { Heart, X, Maximize2 } from 'lucide-react';
 import './OurStory.css';
 
 const chapters = [
@@ -34,7 +35,7 @@ const chapters = [
     chapter: 'CHAPTER 04',
     title: 'FOREVER STARTS HERE',
     subtitle: 'Khởi Đầu Vĩnh Cửu',
-    date: 'Tháng 12, 2026',
+    date: 'Tháng 10, 2026',
     description: 'Và rồi Minh & Phương quyết định cùng nhau bước vào chương mới của cuộc đời — Nơi nụ cười, hạnh phúc và lời hứa chân thành sẽ kéo dài mãi mãi.',
     image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1000&auto=format&fit=crop',
   }
@@ -42,6 +43,11 @@ const chapters = [
 
 export default function OurStory() {
   const [selectedImg, setSelectedImg] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <section className="our-story-section section-padding" id="our-story">
@@ -87,7 +93,7 @@ export default function OurStory() {
                 <div className="chapter-text-col">
                   <div className="chapter-content">
                     <div className="chapter-date font-sans">
-                      <Sparkles size={14} color="var(--color-gold)" />
+                      <span className="chapter-date-dot">✦</span>
                       <span>{item.date}</span>
                     </div>
                     <h3 className="chapter-title font-serif">{item.title}</h3>
@@ -101,37 +107,40 @@ export default function OurStory() {
         </div>
       </div>
 
-      {/* Lightbox Popup Modal */}
-      <AnimatePresence>
-        {selectedImg && (
-          <motion.div 
-            className="img-popup-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedImg(null)}
-          >
-            <button className="popup-close-btn" onClick={() => setSelectedImg(null)}>
-              <X size={28} />
-            </button>
-
+      {/* Lightbox Popup Modal rendered into document.body */}
+      {isMounted && createPortal(
+        <AnimatePresence>
+          {selectedImg && (
             <motion.div 
-              className="popup-content-box"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              onClick={(e) => e.stopPropagation()}
+              className="img-popup-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedImg(null)}
             >
-              <img src={selectedImg.image} alt={selectedImg.title} />
-              <div className="popup-caption">
-                <span className="popup-badge font-sans">{selectedImg.chapter}</span>
-                <h4 className="font-serif">{selectedImg.title} — {selectedImg.subtitle}</h4>
-                <p className="font-sans">{selectedImg.date}</p>
-              </div>
+              <button className="popup-close-btn" onClick={() => setSelectedImg(null)}>
+                <X size={28} />
+              </button>
+
+              <motion.div 
+                className="popup-content-box"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.8 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img src={selectedImg.image} alt={selectedImg.title} />
+                <div className="popup-caption">
+                  <span className="popup-badge font-sans">{selectedImg.chapter}</span>
+                  <h4 className="font-serif">{selectedImg.title} — {selectedImg.subtitle}</h4>
+                  <p className="font-sans">{selectedImg.date}</p>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }

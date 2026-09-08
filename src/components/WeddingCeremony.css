@@ -1,96 +1,275 @@
+/* ============================================
+   WEDDING CEREMONY — Vertical Timeline Layout
+   ============================================ */
+
 .ceremony-section {
   background-color: #FFFFFF;
   position: relative;
 }
 
-.ceremony-card {
-  background: var(--color-surface);
-  border-radius: 20px;
-  padding: 40px 30px;
-  border: 1px solid rgba(199, 27, 32, 0.2);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-  margin-top: 30px;
+/* ---- Timeline Container ---- */
+.ceremony-timeline {
+  position: relative;
+  max-width: 860px;
+  margin: 50px auto 0;
+  padding: 10px 0 30px;
 }
 
-.ceremony-header {
+/* Vertical center line */
+.ceremony-v-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-gold-light) 10%,
+    var(--color-primary) 50%,
+    var(--color-gold-light) 90%,
+    transparent
+  );
+  border-radius: 2px;
+}
+
+/* ---- Each Row ---- */
+.ceremony-row {
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 40px;
+}
+
+.ceremony-row:last-of-type {
+  margin-bottom: 0;
+}
+
+/* ---- Left: Date Card ---- */
+.ceremony-date-col {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 28px;
+}
+
+.ceremony-date-card {
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  color: white;
+  border-radius: 16px;
+  padding: 20px 24px;
   text-align: center;
-  margin-bottom: 35px;
-  padding-bottom: 20px;
-  border-bottom: 1px stroke var(--color-gold-light);
-  border-bottom: 1px dashed rgba(201, 168, 106, 0.4);
+  box-shadow: 0 10px 30px rgba(199, 27, 32, 0.3);
+  min-width: 160px;
 }
 
-.ceremony-names {
-  font-size: 2.2rem;
-  color: var(--color-primary-dark);
-  letter-spacing: 2px;
+.ceremony-emoji {
+  font-size: 1.6rem;
+  display: block;
   margin-bottom: 6px;
 }
 
-.ceremony-tagline {
+.ceremony-solar-day {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+}
+
+.ceremony-solar-date {
   font-size: 1.05rem;
-  color: var(--color-gold);
+  font-weight: 700;
+  color: var(--color-gold-light);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
 }
 
-.ceremony-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  margin-bottom: 35px;
+.ceremony-lunar {
+  display: inline-block;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.12);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
 }
 
-.ceremony-item {
-  background: white;
-  padding: 24px 18px;
-  border-radius: 14px;
-  text-align: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
-  border: 1px solid rgba(199, 27, 32, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.ceremony-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--color-primary-light);
+/* ---- Center: Node ---- */
+.ceremony-node {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
+  z-index: 2;
 }
 
-.item-title {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  color: var(--color-text-muted);
-  margin-bottom: 6px;
-  font-weight: 700;
+.node-index {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border: 3px solid white;
+  box-shadow: 0 4px 16px rgba(199, 27, 32, 0.4);
 }
 
-.item-value {
-  font-size: 1.4rem;
+/* ---- Right: Detail Card ---- */
+.ceremony-detail-col {
+  padding-left: 28px;
+}
+
+.ceremony-detail-card {
+  background: var(--color-surface);
+  border-radius: 16px;
+  padding: 22px 24px;
+  border: 1px solid rgba(199, 27, 32, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ceremony-detail-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(199, 27, 32, 0.1);
+  border-color: var(--color-primary);
+}
+
+.ceremony-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+/* Info rows inside detail card */
+.ceremony-info-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.ceremony-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+
+.ceremony-info-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ceremony-info-row strong {
   color: var(--color-primary-dark);
-  margin-bottom: 4px;
+  font-size: 0.92rem;
 }
 
-.item-sub {
-  font-size: 0.8rem;
+.ceremony-info-row span {
   color: var(--color-text-muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
 }
 
+/* Map Button */
 .ceremony-map-btn {
-  padding: 12px 32px;
-  gap: 8px;
-  font-size: 0.9rem;
-  letter-spacing: 2px;
+  font-size: 0.75rem;
+  padding: 8px 16px;
+  letter-spacing: 1px;
+  gap: 6px;
+  border-radius: 20px;
 }
 
-@media (max-width: 800px) {
-  .ceremony-grid {
+/* Footer note */
+.ceremony-footer-note {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 24px;
+  background: var(--color-primary-light);
+  border-radius: 16px;
+  border: 1px solid rgba(199, 27, 32, 0.15);
+}
+
+.ceremony-footer-note p {
+  color: var(--color-primary-dark);
+  font-size: 0.95rem;
+  font-style: italic;
+  margin: 0;
+}
+
+/* OurStory date dot */
+.chapter-date-dot {
+  color: var(--color-gold);
+  font-size: 0.9rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .ceremony-v-line {
+    left: 22px;
+  }
+
+  .ceremony-row {
     grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-rows: auto auto auto;
+    gap: 14px;
+    padding-left: 54px;
+    position: relative;
+    margin-bottom: 30px;
+  }
+
+  .ceremony-date-col {
+    justify-content: flex-start;
+    padding-right: 0;
+    order: 1;
+  }
+
+  .ceremony-date-card {
+    min-width: unset;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    text-align: left;
+  }
+
+  .ceremony-emoji {
+    margin-bottom: 0;
+    font-size: 1.4rem;
+  }
+
+  .ceremony-node {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    order: 0;
+  }
+
+  .node-index {
+    width: 38px;
+    height: 38px;
+    font-size: 0.78rem;
+  }
+
+  .ceremony-detail-col {
+    padding-left: 0;
+    order: 2;
   }
 }

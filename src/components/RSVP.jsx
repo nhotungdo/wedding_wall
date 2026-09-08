@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2, Heart } from 'lucide-react';
+import { Send, Heart, Calendar } from 'lucide-react';
 import './RSVP.css';
 
 export default function RSVP() {
   const [formData, setFormData] = useState({
     name: '',
     attending: 'yes',
+    selectedEvent: 'Tất cả các ngày',
     count: 2,
     message: ''
   });
@@ -86,16 +87,31 @@ export default function RSVP() {
                 <AnimatePresence>
                   {formData.attending === 'yes' && (
                     <motion.div 
-                      className="form-group"
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                     >
-                      <label className="form-label">Số người tham dự</label>
-                      <div className="count-control">
-                        <button type="button" onClick={() => setFormData(f => ({...f, count: Math.max(1, f.count - 1)}))}>-</button>
-                        <span>{formData.count} người</span>
-                        <button type="button" onClick={() => setFormData(f => ({...f, count: Math.min(10, f.count + 1)}))}>+</button>
+                      <div className="form-group">
+                        <label className="form-label">Chọn buổi tiệc tham dự</label>
+                        <select 
+                          className="form-select"
+                          value={formData.selectedEvent}
+                          onChange={(e) => setFormData({...formData, selectedEvent: e.target.value})}
+                        >
+                          <option value="Tham dự tất cả các ngày">❤️ Tham dự tất cả các ngày (14, 18, 19/10)</option>
+                          <option value="Lần 1: 14/10/2026 (Thứ 4)">💍 Tổ chức lần 1 (Thứ Tư, 14/10/2026)</option>
+                          <option value="Lần 2 - Ngày 1: 18/10/2026 (Chủ Nhật)">💒 Tổ chức lần 2 – Ngày 1 (Chủ Nhật, 18/10/2026)</option>
+                          <option value="Lần 2 - Ngày 2: 19/10/2026 (Thứ 2)">💒 Tổ chức lần 2 – Ngày 2 (Thứ Hai, 19/10/2026)</option>
+                        </select>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Số người tham dự</label>
+                        <div className="count-control">
+                          <button type="button" onClick={() => setFormData(f => ({...f, count: Math.max(1, f.count - 1)}))}>-</button>
+                          <span>{formData.count} người</span>
+                          <button type="button" onClick={() => setFormData(f => ({...f, count: Math.min(10, f.count + 1)}))}>+</button>
+                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -127,7 +143,7 @@ export default function RSVP() {
                 <Heart size={64} fill="var(--color-primary)" color="var(--color-primary)" />
                 <h3 className="font-serif success-title mt-4">THANK YOU ❤️</h3>
                 <p className="success-desc mt-2">
-                  Hẹn gặp bạn tại ngày trọng đại của Minh &amp; Phương.
+                  Hẹn gặp <strong>{formData.name}</strong> tại <strong>{formData.selectedEvent}</strong> của Minh &amp; Phương!
                 </p>
                 <button 
                   className="btn btn-outline mt-6"
