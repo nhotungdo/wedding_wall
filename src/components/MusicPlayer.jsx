@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Music2, Pause, Volume2 } from 'lucide-react';
 import './MusicPlayer.css';
 
-// "Lễ Đường" — Kai Đinh (YouTube ID)
-const YT_VIDEO_ID = 'LMpWNZ_M64g';
+// Bài nhạc từ link: https://www.youtube.com/watch?v=XqgyD0yadH0
+const YT_VIDEO_ID = 'XqgyD0yadH0';
 
 export default function MusicPlayer({ startPlaying }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -109,7 +109,7 @@ export default function MusicPlayer({ startPlaying }) {
           )}
         </div>
         {isPlaying && (
-          <span className="music-now-playing font-sans">♫ Lễ Đường</span>
+          <span className="music-now-playing font-sans">♫ Đang phát nhạc</span>
         )}
       </button>
     </div>
