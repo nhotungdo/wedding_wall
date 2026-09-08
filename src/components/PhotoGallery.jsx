@@ -73,24 +73,19 @@ const getBentoClass = (index) => {
   return patterns[index % patterns.length];
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15
-    }
-  }
-};
-
 const itemVariants = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
-  show: { 
+  show: (index) => ({ 
     opacity: 1, 
     y: 0, 
     scale: 1, 
-    transition: { type: "spring", stiffness: 100, damping: 15 } 
-  },
+    transition: { 
+      type: "spring", 
+      stiffness: 100, 
+      damping: 15,
+      delay: index * 0.15 
+    } 
+  }),
   exit: { 
     opacity: 0, 
     scale: 0.8, 
@@ -158,22 +153,18 @@ export default function PhotoGallery() {
         </div>
 
         {/* Image Grid */}
-        <motion.div 
-          className="gallery-grid" 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-        >
+        <motion.div className="gallery-grid">
           <AnimatePresence mode="popLayout">
             {filteredImages.map((img, index) => (
               <motion.div
                 key={img.id}
                 className={`gallery-item ${getBentoClass(index)}`}
                 layout
+                custom={index}
                 variants={itemVariants}
                 initial="hidden"
-                animate="show"
+                whileInView="show"
+                viewport={{ once: true, margin: "50px" }}
                 exit="exit"
                 onClick={() => openLightbox(index)}
               >
