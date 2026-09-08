@@ -1,0 +1,131 @@
+.details-section {
+  background-color: var(--color-background);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.detail-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.card-header {
+  padding: 20px;
+  text-align: center;
+}
+
+.card-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-row h4 {
+  font-family: var(--font-sans);
+  color: var(--color-text-main);
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.info-row p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.schedule-wrapper {
+  background-color: var(--color-surface);
+  border-radius: 12px;
+  padding: 30px;
+  border: 1px solid var(--color-primary-light);
+}
+
+.schedule-list {
+  position: relative;
+  padding: 20px 0;
+}
+
+.schedule-list::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 60px;
+  width: 2px;
+  background-color: var(--color-gold-light);
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.schedule-item:last-child {
+  margin-bottom: 0;
+}
+
+.schedule-item .time {
+  width: 50px;
+  text-align: right;
+  font-size: 1rem;
+}
+
+.schedule-item .dot {
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-gold);
+  border-radius: 50%;
+  margin: 0 20px 0 14px;
+  z-index: 1;
+  border: 2px solid white;
+}
+
+.schedule-item .event {
+  background: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.schedule-item .event-title {
+  font-weight: 500;
+  color: var(--color-text-main);
+}
+
+@media (max-width: 768px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}

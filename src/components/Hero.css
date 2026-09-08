@@ -1,0 +1,146 @@
+.cinematic-hero {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: white;
+  background-color: var(--color-primary-dark);
+}
+
+.hero-base-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  z-index: 1;
+}
+
+.hero-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  z-index: 2;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(160, 21, 25, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+.hero-content {
+  text-align: center;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 20px;
+}
+
+.intro-text {
+  font-size: 0.85rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-title {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  color: white;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+.hero-date {
+  font-size: 1.2rem;
+  letter-spacing: 5px;
+  margin-bottom: 15px;
+  color: var(--color-gold-light);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-quote {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 50px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.enter-btn-wrapper {
+  margin-top: 20px;
+}
+
+.enter-btn {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 15px 40px;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: white;
+  border-radius: 50px;
+  backdrop-filter: blur(5px);
+}
+
+.enter-btn:hover {
+  background-color: white;
+  color: var(--color-primary-dark);
+  border-color: white;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+/* Particles */
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px white, 0 0 20px white;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  
+  .hero-quote {
+    font-size: 1.2rem;
+  }
+  
+  .intro-text {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+  }
+}
